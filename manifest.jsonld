@@ -217,7 +217,7 @@
       "council": "/90-docs/adr/2605192300-etzhayyim-council-5-of-7-safe.md",
       "muragumoOnly": "/90-docs/adr/2605215000-etzhayyim-inference-murakumo-only-no-runpod.md",
       "feedPostMembrane": "/90-docs/adr/2605231902-feed-post-membrane-and-feed-discover-projection.md",
-      "organism": "/90-docs/adr/2605232345-unispsc-organism-wave1.md",
+      "organism": "/90-docs/adr/2605232345-unspsc-organism-wave1.md",
       "kaizen": "/90-docs/adr/2605240200-kaizen-observer-cell.md",
       "kotoba": "/90-docs/adr/2605262130-kotoba-storage-substrate-unification.md",
       "publicData": "/90-docs/adr/2605262400-public-data-ingestion-via-ipfs-datalad.md",
