@@ -111,6 +111,18 @@ Cell modules created at R1 ratification with import-time
 
 See `/00-contracts/lexicons/com/etzhayyim/ossekai/README.md`.
 
+## Migration Boundary
+
+`kotoba-lang/kotodama-cells/ossekai_*` is legacy source
+during migration. The local `methods/agent.cljc` file preserves the pure CLJC
+handler behavior for the 8 cells, and the murakumo-facing orchestration boundary
+belongs in `src/ossekai/murakumo.cljc` as pure `.cljc` actor plans. The plans
+preserve R0 scaffold behavior by emitting no write effects until Council,
+silen-ossekai, passive-source, aggregate-first, consent, encrypted-digest,
+Murakumo-only inference, signed-sender, and AT Protocol mute/block attestations
+are supplied. Host placement remains in `kotoba-lang/murakumo`; AT
+Protocol/PDS surfaces remain in `gftdcojp/app-aozora`.
+
 ## Constitutional Gates (G1–G15)
 
 See ADR-2605264000 §5. Key novel disciplines:
