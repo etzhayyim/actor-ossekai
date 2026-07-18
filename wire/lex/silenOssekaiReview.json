@@ -1,0 +1,110 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.silenOssekaiReview",
+  "description": "Quarterly Council audit of ossekai operations. G14 STRUCTURAL: every quarter-end emission has the following const-field structural enforcement: (1) reEngagementAfterOptOutCount=0 (G15 critical invariant — re-engagement after opt-out is structurally prohibited; nonzero is a critical finding triggering chigiri.disputeMediation); (2) commercialIntelCrmSoftwarePenetrationPct=0 (G5 const); (3) framingAuditWellbecomingPreservationCompliant const true (G10); (4) anonAggregateSharePctIntegerHundredths ≥ 5000 (G4 STRUCTURAL — aggregate-first invariant: ≥50.00% of all output by volume MUST be in aggregate-public-feed channel; equivalent: targeted @mention + member digest combined ≤50.00%).",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "reviewQuarter",
+          "councilAttestations",
+          "reEngagementAfterOptOutCount",
+          "commercialIntelCrmSoftwarePenetrationPct",
+          "framingAuditWellbecomingPreservationCompliant",
+          "anonAggregateSharePctIntegerHundredths",
+          "attestingDid"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "reviewQuarter": {
+            "type": "string",
+            "description": "Quarter identifier e.g. 2026-Q4"
+          },
+          "councilAttestations": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minLength": 3,
+            "description": "G14 STRUCTURAL: ≥3 Council Lv6+ DIDs"
+          },
+          "reEngagementAfterOptOutCount": {
+            "type": "integer",
+            "const": 0,
+            "description": "G15 CRITICAL STRUCTURAL: const 0; any nonzero count is a critical finding triggering chigiri.disputeMediation + immediate cell halt"
+          },
+          "commercialIntelCrmSoftwarePenetrationPct": {
+            "type": "integer",
+            "const": 0,
+            "description": "G5 STRUCTURAL: const 0; Salesforce / HubSpot / Marketo / Mailchimp / SendGrid commercial / Constant Contact / Pardot / ZoomInfo / Apollo / Clay / Lemlist / Outreach / SalesLoft / Gong / Chorus / 6sense / Cognism / LeadIQ / Drift PROHIBITED"
+          },
+          "framingAuditWellbecomingPreservationCompliant": {
+            "type": "boolean",
+            "const": true,
+            "description": "G10 STRUCTURAL: const true; quarterly framing-audit drift detection MUST attest preservation"
+          },
+          "anonAggregateSharePctIntegerHundredths": {
+            "type": "integer",
+            "minimum": 5000,
+            "maximum": 10000,
+            "description": "G4 STRUCTURAL: minimum 5000 (≥50.00%); aggregate-first invariant — aggregate-public-feed channel share of total output by volume; aggregate-first ordering MUST NOT be inverted"
+          },
+          "unsubscribeRatePctIntegerHundredths": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "description": "Unsubscribe rate (member digest + @mention combined); >500 (5.00%) triggers KaizenObserver R12-equivalent review"
+          },
+          "spamClassifierFlagRatePctIntegerHundredths": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "description": "Third-party Bluesky-client spam-classifier flag rate against ossekai posts; >200 (2.00%) triggers framing-audit recalibration"
+          },
+          "memberImpactAttestationFalsePositiveCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Audited cases where mentionDispatchAttestation cited a memberImpactAttestation that subsequent review found insufficient; >0 triggers Council Lv6+ ≥4 next-quarter campaign threshold tightening"
+          },
+          "arbitragePublicationStalenessFindings": {
+            "type": "array",
+            "items": {"type": "ref", "ref": "#stalenessFinding"},
+            "description": "Kaizen R14-equivalent finding: arbitrageGapReport sources >180 days stale OR pinned-CID drift"
+          },
+          "councilNextQuarterRecommendations": {
+            "type": "array",
+            "items": {"type": "ref", "ref": "#recommendationEntry"}
+          },
+          "attestingDid": {"type": "string"}
+        }
+      }
+    },
+    "stalenessFinding": {
+      "type": "object",
+      "required": ["sourceCategory", "stalenessDays", "remediationCid"],
+      "properties": {
+        "sourceCategory": {"type": "string"},
+        "stalenessDays": {"type": "integer", "minimum": 0},
+        "remediationCid": {"type": "string"}
+      }
+    },
+    "recommendationEntry": {
+      "type": "object",
+      "required": ["recommendationCid", "addressingGate", "councilAttestingDids"],
+      "properties": {
+        "recommendationCid": {"type": "string"},
+        "addressingGate": {
+          "type": "string",
+          "knownValues": ["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13", "G14", "G15"]
+        },
+        "councilAttestingDids": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minLength": 3
+        }
+      }
+    }
+  }
+}

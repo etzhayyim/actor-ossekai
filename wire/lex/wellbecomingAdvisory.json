@@ -1,0 +1,111 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.wellbecomingAdvisory",
+  "description": "Curated Wellbecoming-actionable advisory derived from one or more arbitrageGapReport records. Emitted by intel_analyzer cell. G10 STRUCTURAL: framingAuditPass const true; advisory MUST be Wellbecoming-positive (no Gore / no fear-amplification / no shame / no zero-sum framing) per Charter §1.13. G11 STRUCTURAL: audienceShareDistribution required (anti-individualism per Charter §1.4). UPL boundary (chigiri) + medical-advice boundary (iyashi/mitate/yakushi) enforced via crossActorCitation field.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "sourceGapReportCids",
+          "priority",
+          "scope",
+          "audience",
+          "advisoryTextCid",
+          "framingAuditPass",
+          "audienceShareDistribution",
+          "charterRiderScanPass",
+          "attestingDid"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "sourceGapReportCids": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minLength": 1,
+            "description": "AT-URIs of arbitrageGapReport records this advisory derives from"
+          },
+          "priority": {
+            "type": "string",
+            "knownValues": ["low", "mid", "high"],
+            "description": "Charter §1.13 Wellbecoming priority calibration; 'critical' is RESERVED for kazaori cross-actor emergency_advisory cell ONLY"
+          },
+          "scope": {
+            "type": "string",
+            "knownValues": ["member-only", "jurisdiction", "global"]
+          },
+          "audience": {
+            "type": "string",
+            "knownValues": ["any", "corp-only", "individual-eligible", "member-only"]
+          },
+          "advisoryTextCid": {
+            "type": "string",
+            "description": "IPFS CID of the advisory body text; plain-text + markdown ONLY; no HTML / no tracking pixels / no remote-content"
+          },
+          "framingAuditPass": {
+            "type": "boolean",
+            "const": true,
+            "description": "G10 STRUCTURAL: const true; Wellbecoming framing audit (no Gore / fear / shame / zero-sum / urgency-artifact / scarcity / engagement-hacking) MUST pass"
+          },
+          "framingAuditCid": {
+            "type": "string",
+            "description": "IPFS CID of the framing audit attestation document (Murakumo inference output + manual override if any)"
+          },
+          "audienceShareDistribution": {
+            "type": "ref",
+            "ref": "#audienceShareEntry",
+            "description": "G11 STRUCTURAL: anti-individualism — record what share of intended impact is community / multi-gen / individual"
+          },
+          "crossActorCitation": {
+            "type": "array",
+            "items": {"type": "ref", "ref": "#crossActorCitationEntry"},
+            "description": "UPL boundary (chigiri.ipLicenseClaim for legal-themed) / medical-advice boundary (iyashi + mitate + yakushi for health-themed) / financial-advice boundary (toritate for financial-themed)"
+          },
+          "charterRiderScanPass": {
+            "type": "boolean",
+            "const": true,
+            "description": "G1 STRUCTURAL: const true"
+          },
+          "attestingDid": {"type": "string"}
+        }
+      }
+    },
+    "audienceShareEntry": {
+      "type": "object",
+      "required": ["communitySharePct", "multiGenSharePct", "individualSharePct"],
+      "properties": {
+        "communitySharePct": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "multiGenSharePct": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "individualSharePct": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "G11 STRUCTURAL: individualSharePct ≤ communitySharePct + multiGenSharePct combined is the anti-individualism heuristic (audited via silenOssekaiReview G14)"
+        }
+      }
+    },
+    "crossActorCitationEntry": {
+      "type": "object",
+      "required": ["crossActorDid", "lexiconRef", "boundaryKind"],
+      "properties": {
+        "crossActorDid": {"type": "string"},
+        "lexiconRef": {"type": "string"},
+        "boundaryKind": {
+          "type": "string",
+          "knownValues": ["upl-legal-advice", "medical-advice", "financial-advice", "pharmaceutical-advice", "diagnostic-advice", "emergency-cross-actor"]
+        }
+      }
+    }
+  }
+}

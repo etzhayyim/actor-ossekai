@@ -1,0 +1,75 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.unsubscribeRecord",
+  "description": "Unified unsubscribe record. Consumed by consent_registry cell. Ingests THREE signal classes: (a) explicit unsubscribeRecord emission by member or non-member; (b) AT Proto native `app.bsky.graph.block`; (c) AT Proto native `app.bsky.graph.mute`. G15 STRUCTURAL: per-handle effective immediately at projection layer — mention_dispatcher cell rejects dispatch BEFORE composing post (not after).",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "unsubscribingHandle",
+          "unsubscribingDid",
+          "unsubscribeKind",
+          "scope"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "unsubscribingHandle": {
+            "type": "string",
+            "description": "AT Proto handle of the unsubscribing party"
+          },
+          "unsubscribingDid": {
+            "type": "string",
+            "description": "AT Proto DID of the unsubscribing party"
+          },
+          "unsubscribeKind": {
+            "type": "string",
+            "knownValues": [
+              "explicit-unsubscribeRecord",
+              "at-proto-block-ingested",
+              "at-proto-mute-ingested",
+              "consent-expired",
+              "council-suspension"
+            ],
+            "description": "G15 STRUCTURAL: any of these signals halts dispatch BEFORE composition"
+          },
+          "scope": {
+            "type": "string",
+            "knownValues": [
+              "all-ossekai",
+              "category-specific",
+              "campaign-specific"
+            ],
+            "description": "all-ossekai = complete halt; category-specific = halt only the listed categories; campaign-specific = halt only the referenced campaign"
+          },
+          "categoriesUnsubscribed": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Required if scope = category-specific"
+          },
+          "campaignUri": {
+            "type": "string",
+            "description": "Required if scope = campaign-specific; AT-URI of mentionDispatchAttestation being halted"
+          },
+          "atProtoSourceRecord": {
+            "type": "string",
+            "description": "Required if unsubscribeKind = at-proto-block-ingested OR at-proto-mute-ingested; AT-URI of the source `app.bsky.graph.block` or `app.bsky.graph.mute` record"
+          },
+          "effectiveImmediatelyAttested": {
+            "type": "boolean",
+            "const": true,
+            "description": "G15 STRUCTURAL: const true; consent_registry MUST honor immediately at projection layer — no batching delay / no eventual-consistency excuse"
+          },
+          "auditAtUtc": {
+            "type": "string",
+            "format": "datetime",
+            "description": "silenOssekaiReview G14: re-engagement-after-opt-out detection audit timestamp; any post-revokedAtUtc dispatch attempt to this handle is a G14 critical finding"
+          }
+        }
+      }
+    }
+  }
+}

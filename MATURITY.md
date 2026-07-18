@@ -7,13 +7,13 @@ aggregate-first publication, consent + mute/block honored, no re-engagement afte
 | Dimension | State |
 |---|---|
 | Lexicons | ✅ 9 under `com.etzhayyim.ossekai.*` (arbitrageGapReport / wellbecomingAdvisory / feedPostAttestation / externalMentionConsent / mentionDispatchAttestation / memberDigest{Record,Subscription} / unsubscribeRecord / silenOssekaiReview) — rich const ledger |
-| Manifest | ✅ `manifest.jsonld` — `constitutionalGates` (G1–G15) machine-readable |
+| Manifest | ✅ `manifest.edn` — `constitutionalGates` (G1–G15) machine-readable |
 | Tests | 🟡 **charter-gate suite green; agent suite has 7 pre-existing failures** — see below |
-| Methods | 🟡 agent (`py/`) + cells present |
+| Methods | 🟡 agent (`src/ossekai/methods/`) + cells present |
 
 ## Tests
 
-- ✅ `methods/test_charter_gates.cljc` — **8 tests, green** (added 2026-06-16). Pins the
+- ✅ `test/ossekai/methods/charter_gates_test.cljc` — **8 tests, green** (added 2026-06-16). Pins the
   anti-manipulation const ledger:
   - **no re-engagement after opt-out** (`silenOssekaiReview.reEngagementAfterOptOutCount` const 0)
     + **no commercial CRM/intel software** (`commercialIntelCrmSoftwarePenetrationPct` const 0).
@@ -24,8 +24,8 @@ aggregate-first publication, consent + mute/block honored, no re-engagement afte
   - **G13 non-member mention** consented + Council-gated + rate-limited.
   - **advisory boundary routing** (`wellbecomingAdvisory` requires `crossActorDid` + `boundaryKind`).
   - **member digest** opt-in + encrypted.
-- ⚠️ `py/test_agent.py` — **34 passed / 7 FAILED** (pre-existing, NOT introduced 2026-06-16;
-  `py/` is git-clean). Run via `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest`.
+- ⚠️ `test/ossekai/methods/agent_test.cljc` — **34 passed / 7 FAILED** (pre-existing, NOT introduced 2026-06-16;
+  `src/ossekai/methods/` is git-clean). Run via `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3 -m pytest`.
 
 ### ⚠️ Pre-existing agent-test failures — FOLLOW-UP NEEDED
 
@@ -52,7 +52,7 @@ the charter-gate suite is the schema-level floor (must stay green).
 ### 2026-06-17 — G7 conflict RESOLVED via member-signed-capability autonomy (the 7 failures fixed)
 
 The G7/no-server-key conflict above is **closed**. Implemented Option 1 (member-signed-capability
-autonomy, the ibuki/mimamori precedent ADR-2606111400) in `py/agent.py`:
+autonomy, the ibuki/mimamori precedent ADR-2606111400) in `src/ossekai/methods/agent.cljc`:
 
 - a shared **`_outward_authorized(state)`** gate now backs all 4 outward handlers
   (`handle_aggregate_publisher` / `handle_mention_dispatcher` / `handle_member_digest` /
@@ -64,11 +64,11 @@ autonomy, the ibuki/mimamori precedent ADR-2606111400) in `py/agent.py`:
 - all hardcoded `state="posted"/"sent"` + `broadcast=True` + the `# R2 Autonomous: operator gate
   removed` comments are gone; stale docstrings + `CLAUDE.md` Status corrected;
   `FINDING-G7-autonomy-conflict.md` marked RESOLVED.
-- **`py/test_agent.py` now 41/41 green** (the 7 guards pass via the restored gate — no test was
+- **`test/ossekai/methods/agent_test.cljc` now 41/41 green** (the 7 guards pass via the restored gate — no test was
   weakened to expect a bare `"posted"`). No server key is implied at any point.
 
 Ratified pattern-wide by **ADR-2606181200** (R2-autonomous live-gate-removal reconciliation, 6
 actors) + recorded in `90-docs/260617-r2-autonomous-live-gate-removal-charter-audit.md`. R3 now
 gates only on Council review + cell activation (cells stay import-time `RuntimeError` at R0/R2).
 
-> **2026-06-17 substrate-native migration (ADR-2606160842):** the charter-gate test above was ported Python→Clojure (`methods/test_charter_gates.py` → `methods/test_charter_gates.cljc`, ns `ossekai.methods.test-charter-gates`, reads the lexicons via cheshire/edn) and the Python was pruned. Run via `./run_tests.sh` (now `exec bb`) or `bb run test:charter` (all 34 charter suites; 244 tests / 924 assertions green). Assertions unchanged (1:1 port).
+> **2026-06-17 substrate-native migration (ADR-2606160842):** the charter-gate test above was ported Python→Clojure (`test/ossekai/methods/charter_gates_test.cljc` → `test/ossekai/methods/charter_gates_test.cljc`, ns `ossekai.methods.test-charter-gates`, reads the lexicons via cheshire/edn) and the Python was pruned. Run via `bb test` (now `exec bb`) or `bb run test:charter` (all 34 charter suites; 244 tests / 924 assertions green). Assertions unchanged (1:1 port).

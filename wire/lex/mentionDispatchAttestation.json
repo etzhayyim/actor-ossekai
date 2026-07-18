@@ -1,0 +1,84 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.mentionDispatchAttestation",
+  "description": "Council Lv6+ ≥3 attestation authorizing a non-member @mention campaign. G13 STRUCTURAL: attestingCouncilDids minLength 3 for campaigns ≤50 handles; minLength 4 for campaigns >50 handles. Each campaign MUST cite EITHER memberImpactAttestationCid OR per-recipient externalMentionConsent CIDs (at least one of the two paths). G7 STRUCTURAL: rate limit ≤1 mention / 90d / handle enforced at consent_registry layer.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "campaignDescriptionCid",
+          "targetHandles",
+          "campaignSize",
+          "attestingCouncilDids",
+          "advisoryUri",
+          "framingAuditPass",
+          "charterRiderScanPass",
+          "attestingDid"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "campaignDescriptionCid": {
+            "type": "string",
+            "description": "IPFS CID of the campaign rationale document; Council reviewers MUST be able to read this before signing"
+          },
+          "targetHandles": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minLength": 1,
+            "description": "AT Proto handles to be @mentioned; muted/blocked handles MUST be filtered BEFORE attestation (G15) — Council attests to the post-filter list"
+          },
+          "campaignSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500,
+            "description": "G13 STRUCTURAL: ≤50 → attestingCouncilDids minLength 3; >50 → minLength 4; >500 single campaign PROHIBITED at R0-R3"
+          },
+          "attestingCouncilDids": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minLength": 3,
+            "description": "G13 STRUCTURAL: Council Lv6+ DIDs; ≥3 for ≤50-handle campaigns; ≥4 for >50-handle campaigns (validated at consumer)"
+          },
+          "memberImpactAttestationCid": {
+            "type": "string",
+            "description": "IPFS CID of member-impact attestation (documents which members + how impact occurs); EITHER this OR per-recipient consent path required"
+          },
+          "externalMentionConsentUris": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "AT-URIs of per-recipient externalMentionConsent records; EITHER this OR memberImpactAttestation path required; if both present, both validated"
+          },
+          "advisoryUri": {
+            "type": "string",
+            "description": "AT-URI of the wellbecomingAdvisory record being dispatched"
+          },
+          "framingAuditPass": {
+            "type": "boolean",
+            "const": true,
+            "description": "G10 STRUCTURAL: const true"
+          },
+          "charterRiderScanPass": {
+            "type": "boolean",
+            "const": true,
+            "description": "G1 STRUCTURAL: const true"
+          },
+          "rateLimitWindowAttested": {
+            "type": "boolean",
+            "const": true,
+            "description": "G7 STRUCTURAL: const true; consent_registry confirmed no targetHandle received an ossekai @mention in the trailing 90-day rolling window"
+          },
+          "expiresAtUtc": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Council attestation expiration; dispatcher MUST emit before this timestamp or re-attest"
+          },
+          "attestingDid": {"type": "string"}
+        }
+      }
+    }
+  }
+}

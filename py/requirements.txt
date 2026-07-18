@@ -1,5 +1,0 @@
-# ossekai 御節介 — langgraph WASM actor deps (ADR-2605264000)
-# LLM access is Murakumo-only via the kotoba host `llm` binding (127.0.0.1:4000);
-# no external LLM client is listed here by design (G12).
-langgraph>=0.2
-typing_extensions>=4.0

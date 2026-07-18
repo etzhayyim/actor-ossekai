@@ -157,7 +157,7 @@ fear-amplification per G10).
 
 R1 smoke test (when cells created):
 ```bash
-cd kotoba-lang/kotodama-py
+cd 40-engine/kotoba/crates/kotoba-kotodama/py
 python -c "from kotodama.cells.ossekai_arbitrage_observer import _r0_marker" 2>&1 | grep "R0 scaffold"
 ```
 
@@ -171,9 +171,9 @@ curl -s https://ossekai.etzhayyim.com/xrpc/app.bsky.feed.getFeedGenerator?feed=a
 
 ## Related Files
 
-- `/20-actors/ossekai/manifest.jsonld`
-- `/20-actors/ossekai/README.md`
-- `/00-contracts/lexicons/com/etzhayyim/ossekai/` (9 Lexicons + README)
+- `/manifest.edn`
+- `/README.md`
+- `/wire/lex/` (9 Lexicons + README)
 - `/90-docs/adr/2605264000-ossekai-information-arbitrage-tier-b-actor-r0.md`
 - `/90-docs/adr/2605231902-feed-post-membrane-and-feed-discover-projection.md` — AT Proto first-touch substrate (preserved unchanged)
 - `/90-docs/adr/2605262400-public-data-ingestion-via-ipfs-datalad.md` — Sensor source

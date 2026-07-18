@@ -1,0 +1,94 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.externalMentionConsent",
+  "description": "Non-member explicit prior consent to receive ossekai @mention on a defined topic category. Revocable any time via unsubscribeRecord OR AT Proto native block/mute (G15). G6 STRUCTURAL: consent is opt-in (no pre-checked-by-default); per-category granularity; finite duration (≤365 days default; re-consent required after expiry).",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "consentingHandle",
+          "consentingDid",
+          "consentedCategories",
+          "consentMethod",
+          "expiresAtUtc"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "consentingHandle": {
+            "type": "string",
+            "description": "AT Proto handle of the consenting non-member"
+          },
+          "consentingDid": {
+            "type": "string",
+            "description": "AT Proto DID of the consenting non-member"
+          },
+          "consentedCategories": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minLength": 1,
+            "knownValues": [
+              "regulatory",
+              "case-law-precedent",
+              "safety-recall",
+              "consumer-protection",
+              "labor-rights",
+              "tax-procedural",
+              "civic-participation",
+              "environmental-monitoring",
+              "data-sovereignty",
+              "financial-transparency",
+              "land-rights",
+              "infrastructure-status",
+              "emergency-public-safety",
+              "research-public-good"
+            ],
+            "description": "G6 STRUCTURAL: per-category granularity; consent for category X does NOT imply consent for category Y"
+          },
+          "consentMethod": {
+            "type": "string",
+            "knownValues": [
+              "at-proto-public-reply-signed",
+              "at-proto-private-message-signed",
+              "did-web-signed-pds-record",
+              "in-person-witnessed-then-signed",
+              "council-attested-on-behalf-of-public-figure"
+            ],
+            "description": "How consent was obtained; at-proto-public-reply-signed is the canonical path (consent is itself a public AT Proto record); council-attested-on-behalf-of-public-figure is reserved for public officials in their public capacity (e.g., elected representative consenting to civic-participation category) and requires Council Lv6+ ≥3 secondary attestation"
+          },
+          "consentDocumentCid": {
+            "type": "string",
+            "description": "IPFS CID of the consent record (the signed reply / message / PDS record)"
+          },
+          "expiresAtUtc": {
+            "type": "string",
+            "format": "datetime",
+            "description": "G6 STRUCTURAL: default ≤365 days from createdAt; re-consent required after expiry; no perpetual consent allowed"
+          },
+          "revokedAtUtc": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Revocation timestamp; consent_registry checks this BEFORE every dispatch"
+          },
+          "revocationMethod": {
+            "type": "string",
+            "knownValues": [
+              "explicit-unsubscribeRecord",
+              "at-proto-block-ingested",
+              "at-proto-mute-ingested",
+              "expired-natural"
+            ]
+          },
+          "councilSecondaryAttestationDids": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Required if consentMethod = council-attested-on-behalf-of-public-figure; ≥3 Council Lv6+ DIDs"
+          }
+        }
+      }
+    }
+  }
+}

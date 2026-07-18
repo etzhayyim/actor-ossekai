@@ -80,7 +80,7 @@ structurally pins the actor on the caring side.
 
 ## 8 Pregel Cells (R0 path-reserved)
 
-All cells path-reserved under `kotoba-lang/kotodama-cells/ossekai_*/`.
+All cells path-reserved under `40-engine/kotoba/crates/kotoba-kotodama/cells/ossekai_*/`.
 Cell modules created at R1 ratification with import-time
 `RuntimeError("ossekai R0 scaffold: activate via Council ADR + R1 ratification + e7m-dataset Tier-A foundations available + legal-foundations-r1 recipe ratified + chigiri R1 active for UPL boundary + iyashi R1 active for medical boundary")`.
 
@@ -109,7 +109,7 @@ Cell modules created at R1 ratification with import-time
 | `unsubscribeRecord` | Unified unsubscribe; ingests AT Proto block/mute; G15 effective-immediately |
 | `silenOssekaiReview` | Quarterly Council audit; G4/G5/G10/G14/G15 const-field structural enforcement |
 
-See `/00-contracts/lexicons/com/etzhayyim/ossekai/README.md`.
+See `/wire/lex/README.md`.
 
 ## Constitutional Gates (G1–G15)
 
@@ -157,9 +157,9 @@ unchanged). New surface:
 
 ## Related Files
 
-- `/20-actors/ossekai/manifest.jsonld`
-- `/20-actors/ossekai/CLAUDE.md`
-- `/00-contracts/lexicons/com/etzhayyim/ossekai/` (9 Lexicons + README)
+- `/manifest.edn`
+- `/CLAUDE.md`
+- `/wire/lex/` (9 Lexicons + README)
 - `/90-docs/adr/2605264000-ossekai-information-arbitrage-tier-b-actor-r0.md` — Master ADR
 - `/90-docs/adr/2605231902-feed-post-membrane-and-feed-discover-projection.md` — AT Proto first-touch substrate (preserved unchanged)
 - `/90-docs/adr/2605262400-public-data-ingestion-via-ipfs-datalad.md` — Sensor source

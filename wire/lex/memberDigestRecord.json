@@ -1,0 +1,65 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.memberDigestRecord",
+  "description": "Per-delivery audit-trail for the opt-in member digest (member_digest cell). G8 STRUCTURAL: encryptedPayloadCid REQUIRED per ADR-2605181100 (XChaCha20-Poly1305 + Signal-wrapped per-recipient keys); plaintext rejected at schema layer. G7 STRUCTURAL: deliveryCadence enum reflects subscription cadence; ad-hoc deliveries beyond cadence cap require explicit cadenceOverride citation.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "subscriberSbtId",
+          "subscriberDid",
+          "subscriptionUri",
+          "advisoryUris",
+          "encryptedPayloadCid",
+          "deliveryCadence",
+          "attestingDid"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "subscriberSbtId": {"type": "string"},
+          "subscriberDid": {"type": "string"},
+          "subscriptionUri": {
+            "type": "string",
+            "description": "AT-URI of memberDigestSubscription record"
+          },
+          "advisoryUris": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minLength": 1,
+            "description": "AT-URIs of wellbecomingAdvisory records included in this digest"
+          },
+          "encryptedPayloadCid": {
+            "type": "string",
+            "description": "G8 STRUCTURAL: REQUIRED per ADR-2605181100; IPFS CID of XChaCha20-Poly1305 encrypted digest body with Signal-wrapped per-recipient key; plaintext digest body PROHIBITED"
+          },
+          "deliveryCadence": {
+            "type": "string",
+            "knownValues": ["weekly", "biweekly", "monthly", "daily-override", "ad-hoc-emergency"],
+            "description": "G7 STRUCTURAL: ad-hoc-emergency reserved for kazaori cross-actor emergency_advisory cell; ad-hoc beyond cadence cap requires cadenceOverride citation"
+          },
+          "categoriesIncluded": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "deliveryChannel": {
+            "type": "string",
+            "knownValues": [
+              "at-proto-pds-private",
+              "at-proto-encrypted-dm-r3plus"
+            ],
+            "description": "R0-R2: at-proto-pds-private only; at-proto-encrypted-dm-r3plus is R3+ Council Lv7+ unanimity gate"
+          },
+          "subscriberSignature": {
+            "type": "string",
+            "description": "Subscriber DID signature confirming key wrap successful (verified delivery; non-repudiation)"
+          },
+          "attestingDid": {"type": "string"}
+        }
+      }
+    }
+  }
+}

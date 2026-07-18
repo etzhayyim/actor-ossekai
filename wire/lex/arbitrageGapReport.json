@@ -1,0 +1,100 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.arbitrageGapReport",
+  "description": "Per-detection record of an information-asymmetry pocket — a public-good intelligence pocket where facts exist in pre-published public archives but are not yet broadly surfaced to those who would benefit. Emitted by arbitrage_observer cell. G3 STRUCTURAL: sources MUST be PASSIVE-ONLY (pre-published public archives via e7m-dataset; no live probing). G1 STRUCTURAL: charterRiderScanPass const true (Charter Rider §2(a)-(h) scan).",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "topicCategory",
+          "scope",
+          "sourceCids",
+          "estimatedAsymmetrySeverity",
+          "charterRiderScanPass",
+          "attestingDid"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "topicCategory": {
+            "type": "string",
+            "knownValues": [
+              "regulatory-disclosure",
+              "case-law-precedent",
+              "safety-recall",
+              "consumer-protection",
+              "labor-rights",
+              "tax-procedural",
+              "civic-participation",
+              "environmental-monitoring",
+              "data-sovereignty",
+              "financial-transparency",
+              "land-rights",
+              "infrastructure-status",
+              "emergency-public-safety",
+              "research-public-good",
+              "other"
+            ]
+          },
+          "scope": {
+            "type": "ref",
+            "ref": "#scopeEntry",
+            "description": "Geographic / jurisdictional / community-site scope of the asymmetry"
+          },
+          "sourceCids": {
+            "type": "array",
+            "items": {"type": "string"},
+            "minLength": 1,
+            "description": "G3 STRUCTURAL: IPFS CIDs of pre-published public archives the report is derived from; live probing PROHIBITED — every CID MUST resolve to an e7m-dataset-managed publication"
+          },
+          "estimatedAsymmetrySeverity": {
+            "type": "string",
+            "knownValues": ["low", "mid", "high", "critical"],
+            "description": "How asymmetric is the current access to this intel? critical = potentially life-affecting and not surfaced anywhere accessible"
+          },
+          "estimatedAffectedPopulation": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Order-of-magnitude estimate of people for whom this asymmetry meaningfully matters"
+          },
+          "wellbecomingActionability": {
+            "type": "string",
+            "knownValues": ["informational-only", "next-action-individual", "next-action-community", "next-action-multi-gen"]
+          },
+          "charterRiderScanPass": {
+            "type": "boolean",
+            "const": true,
+            "description": "G1 STRUCTURAL: const true; Charter Rider §2(a)-(h) scan MUST pass before record emission"
+          },
+          "passiveOnlyAttested": {
+            "type": "boolean",
+            "const": true,
+            "description": "G3 STRUCTURAL: const true; PASSIVE-ONLY collection invariant per ADR-2605262400"
+          },
+          "downstreamAdvisoryUris": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "AT-URIs of wellbecomingAdvisory records that consume this gap report"
+          },
+          "attestingDid": {"type": "string"}
+        }
+      }
+    },
+    "scopeEntry": {
+      "type": "object",
+      "required": ["scopeKind"],
+      "properties": {
+        "scopeKind": {
+          "type": "string",
+          "knownValues": ["global", "jurisdiction-iso3", "community-site", "land-registry-region", "cross-jurisdictional"]
+        },
+        "jurisdictionIso3": {"type": "string"},
+        "communityCellSiteId": {"type": "string"},
+        "landRegistryRegionCid": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.feedPostAttestation",
+  "description": "Per AT Protocol post emission audit-trail (aggregate_publisher + mention_dispatcher + emergency_advisory cells). G9 STRUCTURAL: signed sender DID = did:web:ossekai.etzhayyim.com; senderDidConst const = did:web:ossekai.etzhayyim.com. G15 STRUCTURAL: muteBlockCheckPass const true. Records: AT-URI of emitted post + Wellbecoming-framing-pass + Charter Rider scan pass + cryptographic signature.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "emittedAtUri",
+          "emissionChannel",
+          "sourceAdvisoryUri",
+          "senderDidConst",
+          "framingAuditPass",
+          "charterRiderScanPass",
+          "muteBlockCheckPass",
+          "postSignature",
+          "attestingDid"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "emittedAtUri": {
+            "type": "string",
+            "description": "AT-URI of the emitted post (at://did:web:ossekai.etzhayyim.com/app.bsky.feed.post/<tid>)"
+          },
+          "emissionChannel": {
+            "type": "string",
+            "knownValues": [
+              "aggregate-public-feed",
+              "ossekai-custom-feed-generator",
+              "non-member-mention",
+              "emergency-advisory-cross-actor"
+            ]
+          },
+          "sourceAdvisoryUri": {
+            "type": "string",
+            "description": "AT-URI of the wellbecomingAdvisory record this post derives from"
+          },
+          "senderDidConst": {
+            "type": "string",
+            "const": "did:web:ossekai.etzhayyim.com",
+            "description": "G9 STRUCTURAL: const did:web:ossekai.etzhayyim.com; no spoofing / no white-labeling / no proxy-sender"
+          },
+          "framingAuditPass": {
+            "type": "boolean",
+            "const": true,
+            "description": "G10 STRUCTURAL: const true"
+          },
+          "charterRiderScanPass": {
+            "type": "boolean",
+            "const": true,
+            "description": "G1 STRUCTURAL: const true"
+          },
+          "muteBlockCheckPass": {
+            "type": "boolean",
+            "const": true,
+            "description": "G15 STRUCTURAL: const true; for non-member-mention channel — every recipient handle was checked against consent_registry (AT Proto block/mute ingestion) before composition"
+          },
+          "mentionedHandles": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "AT Proto handles @mentioned in this post; empty for aggregate-public-feed channel; non-empty for non-member-mention channel"
+          },
+          "mentionDispatchAttestationUri": {
+            "type": "string",
+            "description": "Required if emissionChannel = non-member-mention; AT-URI of the Council Lv6+ ≥3 mentionDispatchAttestation that authorized this dispatch"
+          },
+          "postSignature": {
+            "type": "string",
+            "description": "Cryptographic signature of the post payload by did:web:ossekai.etzhayyim.com private key"
+          },
+          "attestingDid": {"type": "string"}
+        }
+      }
+    }
+  }
+}

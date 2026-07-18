@@ -1,0 +1,84 @@
+{
+  "lexicon": 1,
+  "id": "com.etzhayyim.ossekai.memberDigestSubscription",
+  "description": "Adherent SBT member subscription record for the private ossekai digest. PDS-private. Per-category opt-out granularity. Cadence default = weekly. G6 STRUCTURAL: no dark patterns — subscription is opt-in (no pre-checked-by-default); unsubscribe is single-action.",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "subscriberSbtId",
+          "subscriberDid",
+          "subscriptionStatus",
+          "categories",
+          "cadence"
+        ],
+        "properties": {
+          "createdAt": {"type": "string", "format": "datetime"},
+          "subscriberSbtId": {
+            "type": "string",
+            "description": "Adherent SBT token-id"
+          },
+          "subscriberDid": {
+            "type": "string",
+            "description": "AT Proto DID of subscribing member"
+          },
+          "subscriptionStatus": {
+            "type": "string",
+            "knownValues": ["active", "paused", "unsubscribed"],
+            "description": "G6 STRUCTURAL: state transitions are single-action; unsubscribed → active requires explicit re-subscription"
+          },
+          "categories": {
+            "type": "array",
+            "items": {"type": "string"},
+            "knownValues": [
+              "regulatory",
+              "case-law-precedent",
+              "safety-recall",
+              "consumer-protection",
+              "labor-rights",
+              "tax-procedural",
+              "civic-participation",
+              "environmental-monitoring",
+              "data-sovereignty",
+              "financial-transparency",
+              "land-rights",
+              "infrastructure-status",
+              "emergency-public-safety",
+              "research-public-good"
+            ],
+            "description": "Per-category granularity; subscriber may include any subset; emergency-public-safety category cannot be silenced (G15-equivalent emergency invariant; member may unsubscribe entire digest but cannot mute emergency-only)"
+          },
+          "cadence": {
+            "type": "string",
+            "knownValues": ["weekly", "biweekly", "monthly"],
+            "description": "G7 STRUCTURAL: default weekly; cadenceOverride is the only path to higher frequency and is opt-in single-action"
+          },
+          "cadenceOverride": {
+            "type": "string",
+            "knownValues": ["daily", "weekly", "biweekly", "monthly"],
+            "description": "G7 STRUCTURAL: explicit higher-cadence subscription (member-controlled)"
+          },
+          "encryptedPayloadPreferenceCid": {
+            "type": "string",
+            "description": "G8 STRUCTURAL: encrypted-envelope key preference per ADR-2605181100"
+          },
+          "lastDigestDeliveryUri": {
+            "type": "string",
+            "description": "AT-URI of last memberDigestRecord"
+          },
+          "unsubscribedAtUtc": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "unsubscribeReasonCid": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
