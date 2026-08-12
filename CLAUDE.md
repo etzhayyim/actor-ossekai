@@ -1,4 +1,4 @@
-# 20-actors/ossekai — CLAUDE.md
+# actor-ossekai — CLAUDE.md
 
 ## Identity
 
