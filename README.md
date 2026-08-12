@@ -6,6 +6,7 @@
 **Status**: R0 scaffold (2026-05-26) — 8 cells path-reserved + 9 Lexicon skeletons
 **First-touch channel**: AT Protocol — `app.bsky.feed.post` (existing membrane per ADR-2605231902) + custom feed generator `feed.ossekai.wellbecoming` + `@mention` (NO email / SMTP at R0-R2)
 **Cross-actor**: e7m-dataset + legal corpus + toritate (sources) / chigiri + iyashi + mitate + yakushi (boundaries) / kazaori (emergency advisory) / baien-moemoekyun + kotoba + feed-discover (substrate)
+**Canonical repository**: `etzhayyim/actor-ossekai`
 
 ## Overview
 
@@ -25,6 +26,12 @@ deliberate ambivalence the actor must hold: caring proactive
 intervention walking the knife-edge between compassionate-helpfulness
 and unwelcome-meddling. The constitutional discipline (15 gates)
 structurally pins the actor on the caring side.
+
+Within the Tamaki artificial organism, ossekai is the consent-aware advisory
+and outreach organ. It cannot perform surveillance, growth marketing, public
+shaming, or unsolicited repeated contact. Aggregate publication stays primary;
+targeted and live delivery remains subject to consent/block state, cadence,
+Council attestation, and member/operator signing authority.
 
 ## Identity (CRITICAL — IMMUTABLE)
 
