@@ -87,7 +87,7 @@ Council attestation, and member/operator signing authority.
 
 ## 8 Pregel Cells (R0 path-reserved)
 
-All cells path-reserved under `40-engine/kotoba/crates/kotoba-kotodama/cells/ossekai_*/`.
+All cells path-reserved under `kotoba-lang/kotodama-cells/ossekai_*/`.
 Cell modules created at R1 ratification with import-time
 `RuntimeError("ossekai R0 scaffold: activate via Council ADR + R1 ratification + e7m-dataset Tier-A foundations available + legal-foundations-r1 recipe ratified + chigiri R1 active for UPL boundary + iyashi R1 active for medical boundary")`.
 
