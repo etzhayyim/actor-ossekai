@@ -6,7 +6,7 @@
   signed sender DID · G10 Wellbecoming framing · G12 Murakumo-only · G13 Council-attested @mention ·
   G15 block/mute honored before composition. The optional `from kotoba import datalog, llm` host
   binding is unused, so _narrate returns nil (the omitted Murakumo leg) and nothing is transacted."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- roundn [x n] (let [f (Math/pow 10.0 n)] (/ (Math/round (* (double x) f)) f)))
 
@@ -42,11 +42,11 @@
 
 ;; ── shared gate helpers ───────────────────────────────────────────────────────
 (defn charter-rider-clean [text]
-  (let [low (str/lower-case text)] (not (some #(str/includes? low %) CHARTER-RIDER-TRIP))))
+  (let [low (str/lower text)] (not (some #(str/includes? low %) CHARTER-RIDER-TRIP))))
 (defn no-dark-pattern [text]
-  (let [low (str/lower-case text)] (not (some #(str/includes? low %) DARK-PATTERN-WORDS))))
+  (let [low (str/lower text)] (not (some #(str/includes? low %) DARK-PATTERN-WORDS))))
 (defn framing-audit [text]
-  (let [low (str/lower-case text)] (not (some #(str/includes? low %) NEGATIVE-FRAMING-WORDS))))
+  (let [low (str/lower text)] (not (some #(str/includes? low %) NEGATIVE-FRAMING-WORDS))))
 
 (defn classify-domain
   "Return [domain actor] for a topic, or [nil nil] if general."
@@ -117,7 +117,7 @@
      "clean" (and (charter-rider-clean text) (no-dark-pattern text) (framing-audit text))}))
 
 (defn- server-or-synthetic-signer? [sig]
-  (let [s (str/lower-case (str/trim (or sig "")))]
+  (let [s (str/lower (str/trim (or sig "")))]
     (or (empty? s) (= s "anon") (str/includes? s "server") (str/includes? s "autonomous_system_signature"))))
 
 (defn- outward-authorized [state]
@@ -298,7 +298,7 @@
                   "broadcast" (boolean (and authorized (seq (:digests acc))))})))
 
 (defn no-panic-framing [text]
-  (let [low (str/lower-case text)]
+  (let [low (str/lower text)]
     (and (not (some #(str/includes? low %) PANIC-WORDS)) (framing-audit text))))
 
 (defn handle-emergency-advisory [state]

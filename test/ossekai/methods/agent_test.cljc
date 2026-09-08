@@ -5,7 +5,7 @@
   G7 ceilings, G1/G6 cleanliness, G9 signed DID, G13/G15 mention gating, G8 encrypted digest,
   G14/G5 kaizen halts, G10 no-panic emergency."
   (:require [clojure.test :refer [deftest is]]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [ossekai.methods.agent :as agent]))
 
 (defn- items []
