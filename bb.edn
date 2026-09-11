@@ -1,3 +1,3 @@
 {:paths ["src" "test" "."]
  :tasks {test {:task (exec 'ossekai.test-runner/-main)}
-         audit {:task (shell "bb scripts/audit.cljk")}}}
+         audit {:task (shell "kbb scripts/audit.cljk")}}}
