@@ -1,13 +1,13 @@
 # ossekai — FINDING: R2-Autonomous publication vs no-server-key (G7) conflict
 
 **Status**: RESOLVED 2026-06-17 — Option 1 (member-signed-capability autonomy) implemented.
-**Found**: 2026-06-16 (`/loop` coverage iteration, surfaced by `test/ossekai/methods/agent_test.cljc`).
+**Found**: 2026-06-16 (`/loop` coverage iteration, surfaced by `test/ossekai/methods/agent_test.cljk`).
 **Severity**: HIGH — touches a Tier-1 substrate invariant (no-server-key, root CLAUDE.md).
 
 ## Resolution (2026-06-17)
 
 Option 1 (member-signed-capability autonomy, ibuki/mimamori parity) was implemented in
-`src/ossekai/methods/agent.cljc`. The internal inconsistency is gone: a shared `_outward_authorized(state)` gate
+`src/ossekai/methods/agent.cljk`. The internal inconsistency is gone: a shared `_outward_authorized(state)` gate
 now backs all four outward handlers (`handle_aggregate_publisher` / `handle_mention_dispatcher`
 / `handle_member_digest` / `handle_emergency_advisory`). A live broadcast is authorized ONLY by
 an operator attestation (`operatorRef`) OR a presented member-signed, scoped capability
@@ -15,7 +15,7 @@ an operator attestation (`operatorRef`) OR a presented member-signed, scoped cap
 blank/`anon`/`server`/`autonomous_system_signature`); absent both, posts stay `:draft` and
 `broadcast=False`. `_attestation_ok` (G13) is restored to actually require Council Lv6+ ≥3
 (≥4 if >50). All hardcoded `state="posted"/"sent"` + `broadcast=True` + the "operator gate
-removed" comments are gone. `test/ossekai/methods/agent_test.cljc` passes **41/41** (the 7 guards are green via the
+removed" comments are gone. `test/ossekai/methods/agent_test.cljk` passes **41/41** (the 7 guards are green via the
 restored gate — no test was weakened to expect a bare `"posted"`). `CLAUDE.md` Status updated to
 match. No server key is implied at any point. Cross-ref: the systemic audit
 `90-docs/260617-r2-autonomous-live-gate-removal-charter-audit.md`.
@@ -28,8 +28,8 @@ operator/member in the loop**:
 | Source | Says |
 |---|---|
 | `CLAUDE.md` (Identity + Status) | "**R2 Autonomous** … fully operational … publication **without manual operator gating**" |
-| `src/ossekai/methods/agent.cljc` (lines 291/302/419/568/603) | hardcodes `state = "posted"`/`"sent"` + `broadcast = True`, commented `# R2 Autonomous: operator gate removed` — **ignores** the `operator_ref` it reads |
-| `test/ossekai/methods/agent_test.cljc` (7 tests) + `agent.py` docstring line 266 | "without `operatorRef` posts are **:draft, nothing broadcast**" — operator-gated (no-server-key) |
+| `src/ossekai/methods/agent.cljk` (lines 291/302/419/568/603) | hardcodes `state = "posted"`/`"sent"` + `broadcast = True`, commented `# R2 Autonomous: operator gate removed` — **ignores** the `operator_ref` it reads |
+| `test/ossekai/methods/agent_test.cljk` (7 tests) + `agent.py` docstring line 266 | "without `operatorRef` posts are **:draft, nothing broadcast**" — operator-gated (no-server-key) |
 | root `CLAUDE.md` substrate boundary | **no-server-key (G7)**: no platform-held private key in etzhayyim-operated pods/CronJobs/bots |
 
 `agent.py` is **internally inconsistent**: its docstring (line 266) promises operator-gating
@@ -46,7 +46,7 @@ the post is signed by a **member-held key**, not a server key.
 autonomous posting via a **member-signed, scoped, revocable CACAO capability**
 (ADR-2606111400): a member Ed25519-signs a delegation in their OWN runtime, the organism
 *presents* the opaque capability (never holds a key), and the write is on-record attributed
-to the consenting member. `ossekai/src/ossekai/methods/agent.cljc` does **not** implement this — it has no
+to the consenting member. `ossekai/src/ossekai/methods/agent.cljk` does **not** implement this — it has no
 `cacao` / `capability` / `memberPrincipal` path; it simply sets `broadcast = True`.
 
 ## Resolution options (Council / ADR decision)
@@ -67,7 +67,7 @@ to the consenting member. `ossekai/src/ossekai/methods/agent.cljc` does **not** 
   CLAUDE.md-documented R2-Autonomous upgrade without ratification.
 - Did **not** edit `test_agent.py` to expect `"posted"` — that would **ratify a possible G7
   weakening**, which the `/loop` mandate forbids ("no-server-key G7 を絶対に弱めない").
-- The lexicon-level charter-gate suite (`test/ossekai/methods/charter_gates_test.cljc`, 8 green) is
+- The lexicon-level charter-gate suite (`test/ossekai/methods/charter_gates_test.cljk`, 8 green) is
   unaffected and stands.
 
 **Action owner**: operator + Council. Pick option 1/2/3, then reconcile `agent.py` +
