@@ -1,6 +1,6 @@
 (ns ossekai.methods.agent
   "ossekai 御節介 — information-arbitrage observer + aggregate-first publisher. 1:1 port of
-  src/ossekai/methods/agent.cljc (8 cells). Eliminates INFORMATION arbitrage (a buried beneficial public fact) and
+  src/ossekai/methods/agent.cljk (8 cells). Eliminates INFORMATION arbitrage (a buried beneficial public fact) and
   delivers Wellbecoming-nudges. Constitutional posture: G1 Charter-Rider-clean · G3 passive-only
   (active-probe source refused) · G4 aggregate-first · G6 no dark patterns · G7 rate limit · G9
   signed sender DID · G10 Wellbecoming framing · G12 Murakumo-only · G13 Council-attested @mention ·

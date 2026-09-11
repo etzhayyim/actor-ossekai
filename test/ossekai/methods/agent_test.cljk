@@ -1,5 +1,5 @@
 (ns ossekai.methods.agent-test
-  "ossekai 御節介 — agent logic tests. 1:1 port of test/ossekai/methods/agent_test.cljc. Pure-logic over the 8 cells
+  "ossekai 御節介 — agent logic tests. 1:1 port of test/ossekai/methods/agent_test.cljk. Pure-logic over the 8 cells
   (datalog/llm degrade to nil). Verifies the invariants that distinguish ossekai from a marketing/
   CRM engine: G3 passive-only, gap = benefit × (1−accessibility) notable ≥0.5, G4 aggregate-first,
   G7 ceilings, G1/G6 cleanliness, G9 signed DID, G13/G15 mention gating, G8 encrypted digest,
