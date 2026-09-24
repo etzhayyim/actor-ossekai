@@ -1,5 +1,5 @@
 (ns ossekai.test-runner
-  (:require [clojure.test :as test]
+  (:require [kotoba.test :as test]
             [ossekai.methods.agent-test]
             [ossekai.methods.charter-gates-test]))
 (defn -main [& _]
